@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>가족 룰렛 게임</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <script type="module" src="js/app.js"></script>
+</head>
+<body>
+  <header class="app-header">
+    <h1>🎡 가족 룰렛</h1>
+    <div class="toggles">
+      <label title="3D 파티클/조명/카메라 연출">
+        <input id="fx-toggle" type="checkbox" checked />
+        3D 연출(three.js)
+      </label>
+      <label title="세그먼트 경계 통과 시 효과음">
+        <input id="tick-toggle" type="checkbox" checked />
+        틱 사운드
+      </label>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="stage">
+      <div id="three-overlay"></div>
+      <div class="pointer" aria-hidden="true"></div>
+      <svg id="wheel" width="520" height="520" viewBox="0 0 520 520" role="img" aria-label="룰렛 휠"></svg>
+      <button id="spin-btn" class="primary">SPIN!</button>
+      <div id="result" class="result" aria-live="polite"></div>
+    </section>
+
+    <aside class="panel">
+      <h2>아이템 편집</h2>
+      <div class="controls">
+        <button id="add-item">항목 추가</button>
+        <button id="reset-defaults">기본값으로</button>
+        <button id="clear-inactive">비활성 항목 제거</button>
+      </div>
+      <table class="items">
+        <thead>
+          <tr>
+            <th>이름</th><th>가중치</th><th>색상</th><th>활성</th><th></th>
+          </tr>
+        </thead>
+        <tbody id="items-tbody"></tbody>
+      </table>
+      <p class="hint">모든 변경사항은 자동 저장됩니다(localStorage).</p>
+      <details class="fx-options">
+        <summary>3D 연출 옵션</summary>
+        <label><input type="checkbox" id="fx-lights" checked /> 조명 펄스</label>
+        <label><input type="checkbox" id="fx-particles" checked /> 파티클(컨페티)</label>
+        <label><input type="checkbox" id="fx-camera" checked /> 카메라 흔들림</label>
+      </details>
+    </aside>
+  </main>
+
+  <footer class="app-footer">
+    <small>© 2025 가족 룰렛 · 공정한 CSPRNG 기반 추첨 · GitHub Pages 배포</small>
+  </footer>
+</body>
+</html>
