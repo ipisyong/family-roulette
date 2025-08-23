@@ -9,12 +9,7 @@ const itemsTbody = document.getElementById('items-tbody');
 const addItemBtn = document.getElementById('add-item');
 const resetBtn = document.getElementById('reset-defaults');
 const clearInactiveBtn = document.getElementById('clear-inactive');
-const fxToggle = document.getElementById('fx-toggle');
-const tickToggle = document.getElementById('tick-toggle');
 
-const fxLights = document.getElementById('fx-lights');
-const fxParticles = document.getElementById('fx-particles');
-const fxCamera = document.getElementById('fx-camera');
 
 const STORAGE_KEY = 'family_roulette_items_v1';
 let rotating = false;
@@ -22,14 +17,9 @@ let currentRotation = 0;
 
 // 기본 프리셋(가족 활동 아이템)
 const DEFAULT_ITEMS = [
-  { name:'피자 데이', weight:1, color:'#ff7675', active:true },
-  { name:'영화(가족 선택)', weight:1, color:'#74b9ff', active:true },
+  { name:'사우나 가기', weight:1, color:'#ff7675', active:true },  
   { name:'보드게임', weight:1, color:'#ffeaa7', active:true },
-  { name:'아이스크림', weight:1, color:'#a29bfe', active:true },
   { name:'야외 산책', weight:1, color:'#55efc4', active:true },
-  { name:'책 읽기 시간', weight:1, color:'#fab1a0', active:true },
-  { name:'노래방', weight:1, color:'#fd79a8', active:true },
-  { name:'와일드카드(당첨자 선택)', weight:1, color:'#81ecec', active:true }
 ];
 
 function loadItems(){
@@ -78,7 +68,14 @@ function computeSegments(list){
 
 function renderWheel(){
   wheelEl.innerHTML = '';
-  const cx = 260, cy = 260, r = 250;
+  const width = wheelEl.getBoundingClientRect().width;
+  if (width === 0) return;
+
+  wheelEl.setAttribute('viewBox', `0 0 ${width} ${width}`);
+  const cx = width / 2;
+  const cy = width / 2;
+  const r = cx - 10;
+
   const segs = computeSegments(items);
 
   for(const seg of segs){
@@ -98,7 +95,8 @@ function renderWheel(){
     text.setAttribute('y', pos.y);
     text.setAttribute('dominant-baseline', 'middle');
     text.setAttribute('text-anchor', 'middle');
-    text.setAttribute('font-size', '14');
+    const fontSize = Math.max(8, Math.min(14, width / 35));
+    text.setAttribute('font-size', fontSize.toFixed(1));
     text.setAttribute('fill', '#0b0f14');
     text.setAttribute('transform', `rotate(${toDegrees(labelAngle)} ${pos.x} ${pos.y})`);
     text.textContent = seg.item.name;
@@ -109,7 +107,7 @@ function renderWheel(){
   const hub = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
   hub.setAttribute('cx', cx);
   hub.setAttribute('cy', cy);
-  hub.setAttribute('r', 32);
+  hub.setAttribute('r', Math.max(12, width / 16));
   hub.setAttribute('fill', '#fff');
   hub.setAttribute('stroke', '#223048');
   hub.setAttribute('stroke-width','3');
@@ -139,7 +137,6 @@ function pickIndex(list){
 // 오디오 틱 사운드
 let audioCtx = null;
 function tick(){
-  if(!tickToggle.checked) return;
   if(!audioCtx) audioCtx = new AudioContext();
   const o = audioCtx.createOscillator();
   const g = audioCtx.createGain();
@@ -169,23 +166,8 @@ function getRotationDeg(){
 
 // three.js FX
 const fx = new ThreeFX(document.getElementById('three-overlay'));
-fx.setOptions({ lights: fxLights.checked, particles: fxParticles.checked, camera: fxCamera.checked });
-
-fxToggle.addEventListener('change', ()=>{
-  if(fxToggle.checked){
-    fx.start();
-  }else{
-    fx.stop();
-  }
-});
-fxLights.addEventListener('change', ()=> fx.setOptions({ lights: fxLights.checked }));
-fxParticles.addEventListener('change', ()=> fx.setOptions({ particles: fxParticles.checked }));
-fxCamera.addEventListener('change', ()=> fx.setOptions({ camera: fxCamera.checked }));
-
-// 3D 연출이 기본 활성화 상태이면 즉시 시작
-if (fxToggle.checked) {
-  fx.start();
-}
+fx.setOptions({ lights: true, particles: true, camera: true });
+fx.start();
 
 // 스핀
 function spin(){
@@ -198,20 +180,18 @@ function spin(){
   const chosenSeg = segs.find(s => s.item === chosenItem);
   const midDeg = (toDegrees(chosenSeg.mid) + 360) % 360;
 
-  // 포인터는 화면 상단(12시, 270deg)을 가리킵니다.
-  // CSS transform의 rotate는 시계방향 회전이므로, 최종 각도를 (midDeg - 270)으로 만들어야 합니다.
+  // 포인터는 화면 상단(SVG 기준 270deg)을 가리킵니다.
+  // CSS transform은 시계방향 회전이므로, 휠의 midDeg 부분이 270deg에 오도록 최종 각도를 (270 - midDeg)로 설정합니다.
   // 현재 각도(currentRotation)를 빼서 필요한 회전량을 계산합니다.
   const extraSpins = 6 + Math.floor(secureRandom() * 4); // 6~9
-  const targetAngle = midDeg - 270; // 최종적으로 휠이 위치해야 할 각도
+  const targetAngle = 270 - midDeg; // 최종적으로 휠이 위치해야 할 각도
   const target = (targetAngle - currentRotation) + (extraSpins * 360); // 현재 각도에서 목표 각도까지의 변화량 + 추가 회전
 
   // 틱 사운드 검출을 위한 경계셋
   setupBoundaries();
 
   // 텐션 업: FX 예열
-  if(fxToggle.checked){
-    fx.tension();
-  }
+  fx.tension();
 
   rotating = true;
   resultEl.textContent = '...';
@@ -256,9 +236,7 @@ function spin(){
         rotating = false;
         resultEl.textContent = `당첨 🎉 ${chosenItem.name}`;
 
-        if(fxToggle.checked){
-          fx.celebrate();
-        }
+        fx.celebrate();
       }, 20);
     }
   }
@@ -266,60 +244,168 @@ function spin(){
   rafId = requestAnimationFrame(loop);
 }
 
-// 편집 UI
-function renderTable(){
-  itemsTbody.innerHTML = '';
-  items.forEach((it, idx)=>{
-    const tr = document.createElement('tr');
+// 편집 UI (개선된 버전)
+const itemsList = document.getElementById('items-list');
 
-    const tdName = document.createElement('td');
-    const inpName = document.createElement('input'); inpName.type='text'; inpName.value=it.name;
-    inpName.addEventListener('input', ()=>{ it.name = inpName.value; saveItems(); renderWheel(); });
-    tdName.appendChild(inpName);
+function renderList() {
+  itemsList.innerHTML = '';
+  items.forEach((it, idx) => {
+    const li = document.createElement('li');
+    li.className = 'item-card';
+    li.style.setProperty('--item-color', it.color || '#888');
+    li.dataset.active = it.active;
 
-    const tdW = document.createElement('td');
-    const inpW = document.createElement('input'); inpW.type='number'; inpW.min='0'; inpW.step='0.1'; inpW.value=it.weight;
-    inpW.addEventListener('input', ()=>{ it.weight = Math.max(0, parseFloat(inpW.value||'0')); saveItems(); renderWheel(); });
-    tdW.appendChild(inpW);
+    // 일반 모드 뷰
+    const viewMode = document.createElement('div');
+    viewMode.style.display = 'flex';
+    viewMode.style.alignItems = 'center';
+    viewMode.style.width = '100%';
 
-    const tdC = document.createElement('td');
-    const inpC = document.createElement('input'); inpC.type='color'; inpC.value=it.color || '#888888';
-    inpC.addEventListener('input', ()=>{ it.color = inpC.value; saveItems(); renderWheel(); });
-    tdC.appendChild(inpC);
+    const nameEl = document.createElement('span');
+    nameEl.className = 'item-name';
+    nameEl.textContent = it.name;
+    nameEl.style.textDecoration = it.active ? 'none' : 'line-through';
 
-    const tdA = document.createElement('td');
-    const chkA = document.createElement('input'); chkA.type='checkbox'; chkA.checked=!!it.active;
-    chkA.addEventListener('change', ()=>{ it.active = chkA.checked; saveItems(); renderWheel(); });
-    tdA.appendChild(chkA);
+    const weightEl = document.createElement('span');
+    weightEl.className = 'item-weight';
+    weightEl.textContent = `가중치: ${it.weight}`;
 
-    const tdX = document.createElement('td');
-    const delBtn = document.createElement('button'); delBtn.textContent='🗑️'; delBtn.title='삭제';
-    delBtn.addEventListener('click', ()=>{
-      items.splice(idx,1); saveItems(); renderTable(); renderWheel();
+    const actions = document.createElement('div');
+    actions.className = 'item-actions';
+
+    const toggleBtn = document.createElement('button');
+    toggleBtn.textContent = it.active ? '비활성' : '활성';
+    toggleBtn.title = it.active ? '룰렛에서 제외' : '룰렛에 포함';
+    toggleBtn.addEventListener('click', () => {
+      it.active = !it.active;
+      saveItems();
+      renderList();
+      renderWheel();
     });
-    tdX.appendChild(delBtn);
 
-    tr.append(tdName, tdW, tdC, tdA, tdX);
-    itemsTbody.appendChild(tr);
+    const editBtn = document.createElement('button');
+    editBtn.textContent = '✏️ 수정';
+    editBtn.addEventListener('click', () => {
+      li.classList.add('edit-mode');
+      viewMode.style.display = 'none';
+      editMode.style.display = 'flex';
+    });
+
+    const delBtn = document.createElement('button');
+    delBtn.textContent = '🗑️ 삭제';
+    delBtn.addEventListener('click', () => {
+      if (confirm(`'${it.name}' 항목을 정말 삭제하시겠습니까?`)) {
+        items.splice(idx, 1);
+        saveItems();
+        renderList();
+        renderWheel();
+      }
+    });
+
+    actions.append(toggleBtn, editBtn, delBtn);
+    viewMode.append(nameEl, weightEl, actions);
+
+    // 편집 모드 뷰
+    const editMode = document.createElement('div');
+    editMode.className = 'edit-controls';
+    editMode.style.display = 'none';
+
+    const inpName = document.createElement('input');
+    inpName.type = 'text';
+    inpName.value = it.name;
+
+    const weightControl = document.createElement('div');
+    weightControl.className = 'weight-control';
+    const minusBtn = document.createElement('button');
+    minusBtn.textContent = '-';
+    const plusBtn = document.createElement('button');
+    plusBtn.textContent = '+';
+    minusBtn.addEventListener('click', () => {
+      inpW.value = Math.max(0, parseFloat(inpW.value) - 1);
+    });
+    plusBtn.addEventListener('click', () => {
+      inpW.value = parseFloat(inpW.value) + 1;
+    });
+    const inpW = document.createElement('input');
+    inpW.type = 'number';
+    inpW.value = it.weight;
+    inpW.style.width = '40px';
+    inpW.style.textAlign = 'center';
+    weightControl.append(minusBtn, inpW, plusBtn);
+
+    const inpC = document.createElement('input');
+    inpC.type = 'color';
+    inpC.value = it.color || '#888888';
+
+    const saveBtn = document.createElement('button');
+    saveBtn.className = 'save-btn';
+    saveBtn.textContent = '저장';
+    saveBtn.addEventListener('click', () => {
+      it.name = inpName.value.trim() || '이름 없음';
+      it.weight = Math.max(0, parseFloat(inpW.value) || 0);
+      it.color = inpC.value;
+      saveItems();
+      renderList();
+      renderWheel();
+      li.classList.remove('edit-mode');
+      viewMode.style.display = 'flex';
+      editMode.style.display = 'none';
+    });
+
+    editMode.append(inpName, weightControl, inpC, saveBtn);
+
+    li.append(viewMode, editMode);
+    itemsList.appendChild(li);
   });
 }
 
-addItemBtn.addEventListener('click', ()=>{
-  items.push({ name:'새 항목', weight:1, color:'#cccccc', active:true });
-  saveItems(); renderTable(); renderWheel();
+addItemBtn.addEventListener('click', () => {
+  items.push({ name: '새 항목', weight: 1, color: `#${Math.floor(Math.random()*16777215).toString(16).padStart(6, '0')}`, active: true });
+  saveItems();
+  renderList();
+  renderWheel();
+  // 새 항목의 편집 모드를 바로 연다.
+  const lastItem = itemsList.lastElementChild;
+  if (lastItem) {
+    lastItem.classList.add('edit-mode');
+    lastItem.querySelector('.edit-controls').style.display = 'flex';
+    lastItem.querySelector('div').style.display = 'none';
+    lastItem.querySelector('input[type="text"]').focus();
+  }
 });
-resetBtn.addEventListener('click', ()=>{
-  items = DEFAULT_ITEMS.slice(); saveItems(); renderTable(); renderWheel();
+
+resetBtn.addEventListener('click', () => {
+  if (confirm('모든 항목을 기본값으로 되돌리시겠습니까?')) {
+    items = DEFAULT_ITEMS.slice();
+    saveItems();
+    renderList();
+    renderWheel();
+  }
 });
-clearInactiveBtn.addEventListener('click', ()=>{
-  items = items.filter(i=>i.active); saveItems(); renderTable(); renderWheel();
+
+clearInactiveBtn.addEventListener('click', () => {
+  const inactiveCount = items.filter(i => !i.active).length;
+  if (inactiveCount === 0) {
+    alert('비활성화된 항목이 없습니다.');
+    return;
+  }
+  if (confirm(`비활성화된 ${inactiveCount}개 항목을 삭제하시겠습니까?`)) {
+    items = items.filter(i => i.active);
+    saveItems();
+    renderList();
+    renderWheel();
+  }
 });
-spinBtn.addEventListener('click', ()=> spin());
+
+spinBtn.addEventListener('click', () => spin());
 
 // 초기 렌더
-renderTable();
+renderList();
 renderWheel();
 currentRotation = 0;
 
 // 페이지 포커스 시 오디오 컨텍스트 잠금 해제
 window.addEventListener('pointerdown', ()=>{ if(!audioCtx && tickToggle.checked) audioCtx = new AudioContext(); }, { once:true });
+
+// 창 크기 변경 시 휠 다시 렌더링
+window.addEventListener('resize', renderWheel);

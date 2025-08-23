@@ -56,3 +56,5 @@ The project is automatically deployed to GitHub Pages whenever changes are pushe
 *   **External Libraries:** `three.js` is loaded via a CDN, as specified in `js/threefx.js`.
 *   **State Management:** The list of roulette items is stored in `localStorage`, allowing for persistence across sessions.
 *   **Fairness:** Item selection is weighted and uses a cryptographically secure pseudo-random number generator (CSPRNG).
+
+- 기능 수정 후, README에 개발 현황이나 변경된 스펙들을 제대로 반영해줄 것
