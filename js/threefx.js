@@ -16,7 +16,7 @@ export class ThreeFX {
     // 파티클
     this.points = null;
     this.velocities = null;
-    this.gravity = -9.8 * 0.35;
+    this.gravity = -9.8 * 0.25;
     this.pulseT = 0;
 
     this._importPromise = null;
@@ -103,7 +103,7 @@ export class ThreeFX {
       // 속도는 구형으로 퍼지게 (더 멀리, 더 빠르게)
       const theta = Math.random() * Math.PI * 2;
       const phi = Math.acos(1 - 2 * Math.random()); // 균일한 구면 분포
-      const speed = rand(4.5, 9.5);
+      const speed = rand(6.0, 12.0);
       vel[i*3+0] = Math.sin(phi) * Math.cos(theta) * speed;
       vel[i*3+1] = Math.sin(phi) * Math.sin(theta) * speed;
       vel[i*3+2] = Math.cos(phi) * speed;
@@ -144,10 +144,7 @@ export class ThreeFX {
     if(!this.enabled) return;
     if(this.opts.particles && this.points){
       // 파티클 재시작
-      const pos = this.points.geometry.getAttribute('position').array;
-      for(let i=0;i<pos.length;i++) pos[i] = 0; // 중심으로 리셋
-      this.points.geometry.attributes.position.needsUpdate = true;
-      
+      this._initParticles(); // 파티클 속도 및 위치 초기화
       this.points.material.opacity = 1.0;
       this.points.visible = true;
       this._particleTime = 0;
