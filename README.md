@@ -1,4 +1,4 @@
-# 🎡 가족 룰렛 (Family Roulette)
+# 🎡 무료 룰렛 게임 | 가족과 즐기는 룰렛 게임 (Family Roulette)
 
 <div align="center">
 
@@ -6,9 +6,9 @@
 ![License](https://img.shields.io/badge/License-MIT-blue)
 ![Version](https://img.shields.io/badge/Version-1.0.0-orange)
 
-**공정하고 재미있는 가족 활동 선택기**
+**무료 원판 돌리기로 즐기는 공정하고 재미있는 가족 활동 선택기**
 
-[🎮 라이브 데모](https://seungyongko.github.io/family-roulette/) • [📖 문서](https://github.com/seungyongko/family-roulette) • [🐛 이슈 리포트](https://github.com/seungyongko/family-roulette/issues)
+[🎮 라이브 데모](https://family-roulette-two.vercel.app/) • [📖 문서](https://github.com/seungyongko/family-roulette) • [🐛 이슈 리포트](https://github.com/seungyongko/family-roulette/issues)
 
 </div>
 
@@ -16,7 +16,7 @@
 
 ## ✨ 프로젝트 소개
 
-**가족 룰렛**은 가족들이 함께 할 활동을 공정하게 선택할 수 있는 인터랙티브 웹 애플리케이션입니다. 
+**무료 룰렛 게임**은 가족들이 함께 할 활동을 공정하게 선택할 수 있는 인터랙티브 웹 애플리케이션입니다. **가족과 즐기는 룰렛 게임**으로 **무료 원판 돌리기**를 통해 특별한 추억을 만들어보세요. 
 
 🎯 **핵심 특징:**
 - 🎲 **가중치 기반 공정 추첨**: CSPRNG를 사용한 암호학적으로 안전한 랜덤 선택
@@ -53,7 +53,7 @@
 - **Twitter Card**: 트위터 공유 최적화
 - **구조화 데이터**: Schema.org JSON-LD 마크업
 - **사이트맵**: sitemap.xml과 robots.txt 제공
-- **검색 키워드**: "가족 게임", "룰렛 게임", "무료 추첨" 등 포함
+- **검색 키워드**: "무료 룰렛 게임", "가족과 즐기는 룰렛 게임", "무료 원판 돌리기", "가족 게임", "룰렛 게임", "무료 추첨" 등 포함
 
 ---
 
