@@ -14,9 +14,12 @@ let currentRotation = 0;
 
 // 기본 프리셋(가족 활동 아이템)
 const DEFAULT_ITEMS = [
-  { name:'사우나 가기', weight:1, color:'#ff7675', active:true },  
-  { name:'보드게임', weight:1, color:'#ffeaa7', active:true },
-  { name:'야외 산책', weight:1, color:'#55efc4', active:true },
+  { name:'사우나 가기', weight:1, color:'#ff6b6b', active:true },  
+  { name:'보드게임', weight:1, color:'#4ecdc4', active:true },
+  { name:'야외 산책', weight:1, color:'#45b7d1', active:true },
+  { name:'영화 감상', weight:1, color:'#96ceb4', active:true },
+  { name:'요리하기', weight:1, color:'#feca57', active:true },
+  { name:'게임하기', weight:1, color:'#ff9ff3', active:true },
 ];
 
 function loadItems(){
@@ -360,9 +363,19 @@ function renderList() {
 // 룰렛 클릭 이벤트
 wheelEl.addEventListener('click', spin);
 
+// 밝고 가시성 있는 색상 생성
+function generateBrightColor() {
+  const brightColors = [
+    '#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57', '#ff9ff3',
+    '#ff9ff3', '#54a0ff', '#5f27cd', '#00d2d3', '#ff9f43', '#10ac84',
+    '#ee5a24', '#f368e0', '#0abde3', '#ff3838', '#ff6348', '#2ed573'
+  ];
+  return brightColors[Math.floor(Math.random() * brightColors.length)];
+}
+
 // 새 항목 추가
 addItemBtn.addEventListener('click', () => {
-  items.push({ name: '새 항목', weight: 1, color: `#${Math.floor(Math.random()*16777215).toString(16).padStart(6, '0')}`, active: true });
+  items.push({ name: '새 항목', weight: 1, color: generateBrightColor(), active: true });
   saveItems();
   renderList();
   renderWheel();

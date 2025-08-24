@@ -61,6 +61,13 @@ h1{font-size:22px; margin:0}
   margin-bottom: 16px;
 }
 .panel h2{margin:0; font-size: 18px;}
+.game-description {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 0 0 16px 0;
+  padding: 0;
+}
 .refresh-btn {
   background: none;
   border: 1px solid var(--line);
@@ -93,9 +100,15 @@ h1{font-size:22px; margin:0}
   display: flex;
   flex-direction: column;
   gap: 10px;
+  position: relative;
+  min-height: 200px;
 }
 
 .add-item-card {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   justify-content: center;
   padding: 8px;
@@ -137,6 +150,7 @@ h1{font-size:22px; margin:0}
   gap: 10px;
   border-left: 5px solid var(--item-color, #ccc);
   transition: background .2s;
+  margin-bottom: 8px;
 }
 
 .item-card[data-active="false"] {
@@ -268,6 +282,10 @@ h1{font-size:22px; margin:0}
     font-size: 22px;
   }
   
+  .items-list {
+    min-height: 180px;
+  }
+  
   .item-card {
     padding: 10px;
     gap: 8px;
@@ -311,6 +329,10 @@ h1{font-size:22px; margin:0}
   
   .panel {
     padding: 10px;
+  }
+  
+  .items-list {
+    min-height: 160px;
   }
   
   .item-card {
