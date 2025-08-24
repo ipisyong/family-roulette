@@ -1,0 +1,70 @@
+# Family Roulette - Cursor Rules
+
+## 프로젝트 개요
+이 프로젝트는 가족 룰렛 게임을 위한 단일 페이지 웹 애플리케이션입니다. HTML5, CSS3, Vanilla JavaScript를 사용하여 구현되었으며, SVG 기반 룰렛 휠과 three.js를 활용한 3D 시각 효과를 포함합니다.
+
+## 기술 스택
+- **프론트엔드**: HTML5, CSS3, Vanilla JavaScript (ES6+)
+- **그래픽**: SVG (룰렛 휠), Three.js (3D 효과)
+- **배포**: GitHub Pages, GitHub Actions
+- **언어**: 한국어 (ko)
+
+## 코딩 컨벤션
+
+### JavaScript
+- ES6+ 모듈 시스템 사용 (`import`/`export`)
+- 한국어 주석 사용
+- 함수명과 변수명은 camelCase
+- 상수는 UPPER_SNAKE_CASE
+- `const`와 `let` 사용, `var` 금지
+
+### CSS
+- BEM 방법론 준수
+- 반응형 디자인 우선
+- CSS 변수 활용
+- 모바일 퍼스트 접근법
+
+### HTML
+- 시맨틱 HTML 사용
+- 접근성 고려 (ARIA 속성)
+- 한국어 메타데이터 설정
+
+## 파일 구조
+```
+/
+├── index.html          # 메인 애플리케이션 페이지
+├── css/
+│   └── styles.css      # 애플리케이션 스타일
+├── js/
+│   ├── app.js          # 핵심 애플리케이션 로직, UI, 상태 관리
+│   └── threefx.js      # Three.js 효과 컨트롤러
+├── .github/
+│   └── workflows/
+│       └── deploy.yml  # GitHub Actions 배포 워크플로우
+└── README.md           # 프로젝트 문서
+```
+
+## 주요 기능
+1. **룰렛 휠**: SVG 기반 인터랙티브 룰렛
+2. **가중치 기반 선택**: CSPRNG를 사용한 공정한 추첨
+3. **3D 효과**: Three.js를 활용한 파티클, 조명, 카메라 효과
+4. **로컬 저장소**: localStorage를 통한 상태 유지
+5. **반응형 디자인**: 모바일과 데스크톱 모두 지원
+
+## 개발 가이드라인
+- 새로운 기능 추가 시 README.md 업데이트
+- 코드 변경 후 로컬 테스트 필수
+- ES6+ 모듈 호환성 유지
+- 브라우저 호환성 고려 (최신 브라우저 지원)
+- 성능 최적화 고려 (파티클 개수, 애니메이션 등)
+
+## 테스트 및 배포
+- 로컬 개발 시 HTTP 서버 사용 (ES 모듈 제한 때문)
+- GitHub Actions를 통한 자동 배포
+- 메인 브랜치 푸시 시 자동 배포
+
+## 주의사항
+- Three.js는 CDN을 통해 로드 (정적 호스팅 친화적)
+- localStorage 키 버전 관리 (`family_roulette_items_v1`)
+- 한국어 사용자 경험 최적화
+- SEO 최적화 (메타 태그, 구조화된 데이터)

@@ -40,19 +40,48 @@ h1{font-size:22px; margin:0}
   width:100%; max-width:520px; aspect-ratio:1/1; border-radius:50%; background: radial-gradient(circle at center, #0c1421, #060a10);
   border:2px solid #2c374a; box-shadow: inset 0 0 60px rgba(0,0,0,.6), 0 0 120px rgba(78,193,255,.1);
   transform: rotate(0deg);
+  cursor: pointer;
+  transition: transform 0.1s ease;
 }
-#spin-btn{
-  margin-top:18px; padding:12px 22px; font-size:18px; border-radius:999px; border:1px solid #2f3a4c; background:#101828; color:#fff; cursor:pointer;
-  box-shadow: 0 0 0 0 rgba(78,193,255,.0);
-  transition: box-shadow .3s ease, transform .06s ease;
+#wheel:hover {
+  transform: rotate(0deg) scale(1.02);
+  box-shadow: inset 0 0 60px rgba(0,0,0,.6), 0 0 120px rgba(78,193,255,.2);
 }
-#spin-btn:hover{ box-shadow: 0 0 0 8px rgba(78,193,255,.08) }
-#spin-btn:active{ transform: translateY(1px) }
+#wheel:active {
+  transform: rotate(0deg) scale(0.98);
+}
 .result{ margin-top:10px; min-height:28px; color:var(--accent-2); font-weight:600; letter-spacing:0.2px }
 .panel{
   position:sticky; top:12px; background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:14px;
 }
-.panel h2{margin:6px 0 12px}
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.panel h2{margin:0; font-size: 18px;}
+.refresh-btn {
+  background: none;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.2s ease;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.refresh-btn:hover {
+  background: var(--accent);
+  color: var(--bg);
+  border-color: var(--accent);
+  transform: rotate(180deg);
+}
 .controls{display:flex; gap:8px; margin-bottom:12px; flex-wrap:wrap;}
 .controls button{
   border:1px solid #2f3a4c; background:#121a25; color:#cfe2ff; padding:8px 10px; border-radius:8px; cursor:pointer; font-size:13px;
@@ -64,6 +93,39 @@ h1{font-size:22px; margin:0}
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+.add-item-card {
+  display: flex;
+  justify-content: center;
+  padding: 8px;
+}
+
+.add-item-btn {
+  background: var(--accent);
+  color: var(--bg);
+  border: none;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(78, 193, 255, 0.3);
+}
+
+.add-item-btn:hover {
+  background: var(--accent-2);
+  transform: scale(1.1);
+  box-shadow: 0 4px 16px rgba(156, 255, 109, 0.4);
+}
+
+.add-item-btn:active {
+  transform: scale(0.95);
 }
 
 .item-card {
@@ -181,4 +243,83 @@ h1{font-size:22px; margin:0}
   .pointer { top: 12px; }
   #wheel { max-width: calc(100vw - 80px); }
   .app-footer small { font-size: 11px; }
+  
+  .panel {
+    padding: 12px;
+  }
+  
+  .panel-header {
+    margin-bottom: 12px;
+  }
+  
+  .panel h2 {
+    font-size: 16px;
+  }
+  
+  .refresh-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+  }
+  
+  .add-item-btn {
+    width: 44px;
+    height: 44px;
+    font-size: 22px;
+  }
+  
+  .item-card {
+    padding: 10px;
+    gap: 8px;
+  }
+  
+  .item-card .item-weight {
+    min-width: 60px;
+    font-size: 12px;
+  }
+  
+  .item-card .edit-controls {
+    gap: 6px;
+  }
+  
+  .item-card .edit-controls input[type="text"] {
+    font-size: 13px;
+    padding: 6px;
+  }
+  
+  .item-card .edit-controls .weight-control button {
+    width: 24px;
+    height: 24px;
+    font-size: 14px;
+  }
+  
+  .item-card .edit-controls input[type="color"] {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .item-card .edit-controls .save-btn {
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .layout { padding: 8px; gap: 8px; }
+  .stage { padding: 8px 0; }
+  #wheel { max-width: calc(100vw - 60px); }
+  
+  .panel {
+    padding: 10px;
+  }
+  
+  .item-card {
+    padding: 8px;
+    gap: 6px;
+  }
+  
+  .item-card .item-actions button {
+    padding: 3px;
+    font-size: 12px;
+  }
 }

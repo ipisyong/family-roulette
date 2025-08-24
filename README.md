@@ -1,58 +1,198 @@
-# Family Roulette
+# 🎡 가족 룰렛 (Family Roulette)
 
-## Project Overview
+<div align="center">
 
-This is a "Family Roulette" web application, designed as a single-page application using vanilla HTML, CSS, and JavaScript. Its core functionality is an interactive, SVG-based roulette wheel for making weighted random selections.
+![Family Roulette](https://img.shields.io/badge/Status-Live-brightgreen)
+![License](https://img.shields.io/badge/License-MIT-blue)
+![Version](https://img.shields.io/badge/Version-1.0.0-orange)
 
-The application is enhanced with optional 3D visual effects powered by `three.js`, including particle explosions (confetti), dynamic lighting, and camera shake effects upon winning. It ensures fair selection by using the browser's built-in `crypto.getRandomValues` for random number generation.
+**공정하고 재미있는 가족 활동 선택기**
 
-Application state, specifically the list of roulette items and their properties (name, weight, color), is persisted locally in the user's browser via `localStorage`.
+[🎮 라이브 데모](https://seungyongko.github.io/family-roulette/) • [📖 문서](https://github.com/seungyongko/family-roulette) • [🐛 이슈 리포트](https://github.com/seungyongko/family-roulette/issues)
 
-## Key Technologies
+</div>
 
-*   **Frontend:** HTML5, CSS3, Vanilla JavaScript (ESM)
-*   **Graphics:** SVG for the roulette wheel, `three.js` for optional 3D effects.
-*   **Deployment:** GitHub Actions for continuous deployment to GitHub Pages.
+---
 
-## File Structure
+## ✨ 프로젝트 소개
+
+**가족 룰렛**은 가족들이 함께 할 활동을 공정하게 선택할 수 있는 인터랙티브 웹 애플리케이션입니다. 
+
+🎯 **핵심 특징:**
+- 🎲 **가중치 기반 공정 추첨**: CSPRNG를 사용한 암호학적으로 안전한 랜덤 선택
+- 🎨 **아름다운 SVG 룰렛**: 부드러운 애니메이션과 직관적인 인터페이스
+- ✨ **3D 시각 효과**: Three.js 기반 파티클, 조명, 카메라 효과
+- 💾 **로컬 저장소**: 브라우저에 설정과 항목 저장
+- 📱 **완벽한 반응형**: 모든 디바이스에서 최적화된 경험
+
+---
+
+## 🚀 주요 기능
+
+### 🎯 핵심 기능
+- **가중치 기반 선택**: 각 항목별로 다른 확률 설정 가능
+- **실시간 룰렛**: 부드러운 회전 애니메이션
+- **결과 표시**: 당첨된 항목을 명확하게 표시
+- **항목 관리**: 추가, 삭제, 비활성화 기능
+
+### 🎨 시각적 효과
+- **파티클 시스템**: 당첨 시 컨페티 효과
+- **동적 조명**: 스포트라이트와 앰비언트 라이트
+- **카메라 효과**: 승리 시 카메라 흔들림
+- **색상 커스터마이징**: 각 항목별 개별 색상 설정
+
+### 🔧 사용자 경험
+- **직관적 UI**: 간단하고 명확한 인터페이스
+- **로컬 저장**: 설정과 항목이 자동으로 저장
+- **접근성**: ARIA 속성과 키보드 네비게이션 지원
+- **한국어 최적화**: 한국 사용자를 위한 완벽한 현지화
+
+---
+
+## 🛠️ 기술 스택
+
+<div align="center">
+
+| 카테고리 | 기술 |
+|:--------:|:-----|
+| **프론트엔드** | HTML5, CSS3, Vanilla JavaScript (ES6+) |
+| **그래픽** | SVG, Three.js |
+| **상태 관리** | localStorage |
+| **배포** | GitHub Pages, GitHub Actions |
+| **언어** | 한국어 (ko) |
+
+</div>
+
+---
+
+## 📁 프로젝트 구조
 
 ```
-/
-├── index.html          # Main application page
-├── css/
-│   └── styles.css      # Styles for the application
-├── js/
-│   ├── app.js          # Core application logic, UI, and state management
-│   └── threefx.js      # three.js effects controller
-├── .github/
+family-roulette/
+├── 📄 index.html              # 메인 애플리케이션 페이지
+├── 🎨 css/
+│   └── styles.css             # 애플리케이션 스타일시트
+├── ⚙️ js/
+│   ├── app.js                 # 핵심 애플리케이션 로직
+│   └── threefx.js             # Three.js 효과 컨트롤러
+├── 🚀 .github/
 │   └── workflows/
-│       └── deploy.yml  # GitHub Actions workflow for deployment
-└── README.md           # Project README
+│       └── deploy.yml         # 자동 배포 워크플로우
+├── 📖 README.md               # 프로젝트 문서
+├── 🔍 SEO.md                  # SEO 최적화 가이드
+└── 🎯 .cursorrules            # Cursor 개발 규칙
 ```
 
-## Building and Running
+---
 
-This project consists of static files and does not require a build step.
+## 🚀 시작하기
 
-### Local Development
+### 📋 요구사항
+- 최신 웹 브라우저 (Chrome 80+, Firefox 75+, Safari 13+)
+- ES6+ 모듈 지원
+- WebGL 지원 (3D 효과용)
 
-To run the project locally, it is recommended to use a simple HTTP server to avoid potential browser restrictions on loading ES modules from the local filesystem.
+### 🔧 로컬 개발
 
-1.  **Navigate to the project directory.**
-2.  **Start a local server.** A common way is to use Python's built-in server:
-    ```bash
-    python3 -m http.server
-    ```
-3.  **Open your browser** and go to `http://localhost:8000` (or the port specified by your server).
+1. **저장소 클론**
+   ```bash
+   git clone https://github.com/seungyongko/family-roulette.git
+   cd family-roulette
+   ```
 
-### Deployment
+2. **로컬 서버 실행** (ES 모듈 제한 때문)
+   ```bash
+   # Python 3 사용
+   python3 -m http.server 8000
+   
+   # 또는 Node.js 사용
+   npx serve .
+   
+   # 또는 PHP 사용
+   php -S localhost:8000
+   ```
 
-The project is automatically deployed to GitHub Pages whenever changes are pushed to the `main` branch. The deployment process is defined in `.github/workflows/deploy.yml` and requires no manual intervention.
+3. **브라우저에서 열기**
+   ```
+   http://localhost:8000
+   ```
 
-## Development Conventions
+### 🌐 배포
 
-*   **Modularity:** The application logic is separated into two main files: `app.js` for the core functionality and `threefx.js` for the 3D effects.
-*   **ES Modules:** The project uses native JavaScript modules (`import`/`export`).
-*   **External Libraries:** `three.js` is loaded via a CDN, as specified in `js/threefx.js`.
-*   **State Management:** The list of roulette items is stored in `localStorage`, allowing for persistence across sessions.
-*   **Fairness:** Item selection is weighted and uses a cryptographically secure pseudo-random number generator (CSPRNG).
+이 프로젝트는 **GitHub Actions**를 통해 자동으로 배포됩니다:
+
+- `main` 브랜치에 푸시하면 자동 배포
+- `.github/workflows/deploy.yml`에서 배포 프로세스 정의
+- 수동 개입 불필요
+
+---
+
+## 🎮 사용법
+
+### 기본 사용
+1. **룰렛 회전**: "SPIN!" 버튼 클릭
+2. **결과 확인**: 포인터가 가리키는 항목이 당첨
+3. **항목 편집**: 우측 패널에서 항목 추가/수정/삭제
+
+### 고급 설정
+- **가중치 조정**: 각 항목의 당첨 확률 설정
+- **색상 커스터마이징**: 개별 항목 색상 변경
+- **항목 비활성화**: 일시적으로 제외할 항목 설정
+
+---
+
+## 🔧 개발 가이드
+
+### 코딩 컨벤션
+- **JavaScript**: ES6+ 모듈, camelCase, 한국어 주석
+- **CSS**: BEM 방법론, 반응형 우선, CSS 변수 활용
+- **HTML**: 시맨틱 마크업, 접근성 고려
+
+### 모듈 구조
+- **`app.js`**: 핵심 룰렛 로직, UI 관리, 상태 관리
+- **`threefx.js`**: 3D 효과, 파티클 시스템, 애니메이션
+
+### 성능 최적화
+- **파티클 개수**: 800개로 최적화
+- **애니메이션**: requestAnimationFrame 사용
+- **메모리 관리**: 이벤트 리스너 정리
+
+---
+
+## 🌟 기여하기
+
+프로젝트에 기여하고 싶으시다면:
+
+1. **Fork** 저장소
+2. **Feature branch** 생성 (`git checkout -b feature/AmazingFeature`)
+3. **Commit** 변경사항 (`git commit -m 'Add some AmazingFeature'`)
+4. **Push** 브랜치 (`git push origin feature/AmazingFeature`)
+5. **Pull Request** 생성
+
+### 🐛 버그 리포트
+- [GitHub Issues](https://github.com/seungyongko/family-roulette/issues) 사용
+- 상세한 재현 단계와 예상 동작 포함
+
+---
+
+## 📄 라이선스
+
+이 프로젝트는 **MIT 라이선스** 하에 배포됩니다. 자세한 내용은 [LICENSE](LICENSE) 파일을 참조하세요.
+
+---
+
+## 🙏 감사의 말
+
+- **Three.js** 팀에게 아름다운 3D 라이브러리 제공에 감사
+- **SVG** 표준을 만든 W3C에 감사
+- **GitHub Pages**와 **GitHub Actions** 팀에게 무료 호스팅과 CI/CD 제공에 감사
+
+---
+
+<div align="center">
+
+**⭐ 이 프로젝트가 도움이 되었다면 스타를 눌러주세요!**
+
+**Made with ❤️ by [Seungyong Ko](https://github.com/seungyongko)**
+
+</div>

@@ -3,13 +3,10 @@
 import { ThreeFX } from './threefx.js';
 
 const wheelEl = document.getElementById('wheel');
-const spinBtn = document.getElementById('spin-btn');
 const resultEl = document.getElementById('result');
-const itemsTbody = document.getElementById('items-tbody');
+const itemsList = document.getElementById('items-list');
 const addItemBtn = document.getElementById('add-item');
 const resetBtn = document.getElementById('reset-defaults');
-const clearInactiveBtn = document.getElementById('clear-inactive');
-
 
 const STORAGE_KEY = 'family_roulette_items_v1';
 let rotating = false;
@@ -245,10 +242,11 @@ function spin(){
 }
 
 // 편집 UI (개선된 버전)
-const itemsList = document.getElementById('items-list');
-
 function renderList() {
-  itemsList.innerHTML = '';
+  // 기존 아이템들만 렌더링 (추가 버튼은 HTML에 고정)
+  const existingItems = itemsList.querySelectorAll('.item-card:not(.add-item-card)');
+  existingItems.forEach(item => item.remove());
+  
   items.forEach((it, idx) => {
     const li = document.createElement('li');
     li.className = 'item-card';
@@ -359,13 +357,17 @@ function renderList() {
   });
 }
 
+// 룰렛 클릭 이벤트
+wheelEl.addEventListener('click', spin);
+
+// 새 항목 추가
 addItemBtn.addEventListener('click', () => {
   items.push({ name: '새 항목', weight: 1, color: `#${Math.floor(Math.random()*16777215).toString(16).padStart(6, '0')}`, active: true });
   saveItems();
   renderList();
   renderWheel();
   // 새 항목의 편집 모드를 바로 연다.
-  const lastItem = itemsList.lastElementChild;
+  const lastItem = itemsList.querySelector('.item-card:last-child');
   if (lastItem) {
     lastItem.classList.add('edit-mode');
     lastItem.querySelector('.edit-controls').style.display = 'flex';
@@ -374,6 +376,7 @@ addItemBtn.addEventListener('click', () => {
   }
 });
 
+// 기본값으로 되돌리기
 resetBtn.addEventListener('click', () => {
   if (confirm('모든 항목을 기본값으로 되돌리시겠습니까?')) {
     items = DEFAULT_ITEMS.slice();
@@ -383,29 +386,13 @@ resetBtn.addEventListener('click', () => {
   }
 });
 
-clearInactiveBtn.addEventListener('click', () => {
-  const inactiveCount = items.filter(i => !i.active).length;
-  if (inactiveCount === 0) {
-    alert('비활성화된 항목이 없습니다.');
-    return;
-  }
-  if (confirm(`비활성화된 ${inactiveCount}개 항목을 삭제하시겠습니까?`)) {
-    items = items.filter(i => i.active);
-    saveItems();
-    renderList();
-    renderWheel();
-  }
-});
-
-spinBtn.addEventListener('click', () => spin());
-
 // 초기 렌더
 renderList();
 renderWheel();
 currentRotation = 0;
 
 // 페이지 포커스 시 오디오 컨텍스트 잠금 해제
-window.addEventListener('pointerdown', ()=>{ if(!audioCtx && tickToggle.checked) audioCtx = new AudioContext(); }, { once:true });
+window.addEventListener('pointerdown', ()=>{ if(!audioCtx) audioCtx = new AudioContext(); }, { once:true });
 
 // 창 크기 변경 시 휠 다시 렌더링
 window.addEventListener('resize', renderWheel);

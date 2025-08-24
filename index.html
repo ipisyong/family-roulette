@@ -21,19 +21,20 @@
       <div id="three-overlay"></div>
       <div class="pointer" aria-hidden="true"></div>
       <svg id="wheel" width="520" height="520" viewBox="0 0 520 520" role="img" aria-label="룰렛 휠"></svg>
-      <button id="spin-btn" class="primary">SPIN!</button>
+
       <div id="result" class="result" aria-live="polite"></div>
     </section>
 
     <aside class="panel">
-      <h2>아이템 편집</h2>
-      <div class="controls">
-        <button id="add-item">항목 추가</button>
-        <button id="reset-defaults">기본값으로</button>
-        <button id="clear-inactive">비활성 항목 제거</button>
+      <div class="panel-header">
+        <h2>아이템 편집</h2>
+        <button id="reset-defaults" class="refresh-btn" title="기본값으로 되돌리기">🔄</button>
       </div>
-      <ul id="items-list" class="items-list"></ul>
-      
+      <ul id="items-list" class="items-list">
+        <li class="add-item-card">
+          <button id="add-item" class="add-item-btn" title="새 항목 추가">+</button>
+        </li>
+      </ul>
     </aside>
   </main>
 
