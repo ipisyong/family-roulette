@@ -1,0 +1,36 @@
+name: Sitemap/Robots Smoke Check
+
+on:
+  workflow_run:
+    workflows: ["Deploy to GitHub Pages"]
+    types: [completed]
+
+jobs:
+  check:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify sitemap.xml and robots.txt
+        run: |
+          set -euo pipefail
+          for path in sitemap.xml robots.txt; do
+            echo "Checking https://family-roulette.win/$path"
+            curl -sSLI -A "Mozilla/5.0 (compatible; SitemapCheck/1.0; +https://github.com/anonymous/family-roulette)" \
+              "https://family-roulette.win/$path" | tee /tmp/headers.txt
+            code=$(grep -m1 -Eo 'HTTP/[0-9\\.]+ [0-9]+' /tmp/headers.txt | awk '{print $2}')
+            if [ "$code" != "200" ]; then
+              echo "Non-200 status for $path: $code" >&2; exit 1
+            fi
+            ctype=$(grep -i '^content-type:' /tmp/headers.txt | head -n1 | awk '{print tolower($2)}' | tr -d '\r') || true
+            if [ "$path" = "sitemap.xml" ]; then
+              # Content-Type should contain xml
+              if [ -n "${ctype:-}" ] && ! echo "$ctype" | grep -q 'xml'; then
+                echo "Unexpected Content-Type for sitemap: $ctype" >&2; exit 1
+              fi
+              body_first=$(curl -sSL -A "Mozilla/5.0 (compatible; SitemapCheck/1.0; +https://github.com/anonymous/family-roulette)" \
+                "https://family-roulette.win/$path" | head -n1)
+              if ! echo "$body_first" | grep -q '<?xml'; then
+                echo "Sitemap does not start with XML declaration; got: $body_first" >&2; exit 1
+              fi
+            fi
+          done
