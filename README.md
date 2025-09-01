@@ -8,7 +8,7 @@
 
 **무료 원판 돌리기로 즐기는 공정하고 재미있는 가족 활동 선택기**
 
-[🎮 라이브 데모](https://family-roulette-two.vercel.app/) • [📖 문서](https://github.com/seungyongko/family-roulette) • [🐛 이슈 리포트](https://github.com/seungyongko/family-roulette/issues)
+[🎮 라이브 데모](https://family-roulette.win/) • [📖 문서](https://github.com/seungyongko/family-roulette) • [🐛 이슈 리포트](https://github.com/seungyongko/family-roulette/issues)
 
 </div>
 
